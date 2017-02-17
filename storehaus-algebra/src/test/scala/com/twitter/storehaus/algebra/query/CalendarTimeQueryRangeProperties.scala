@@ -19,7 +19,7 @@ package com.twitter.storehaus.algebra.query
 import org.scalacheck.{ Gen, Arbitrary }
 import org.scalacheck.Prop._
 import org.scalacheck.Properties
-import com.twitter.scalding._
+import com.twitter.storehaus.algebra.query.scalding._
 
 object CalendarTimeQueryRangeProperties extends Properties("CalendarTimeStrategy") {
   def exclusiveUpperLen(dr: DateRange): AbsoluteDuration =

@@ -16,7 +16,7 @@
 
 package com.twitter.storehaus.algebra.query
 
-import com.twitter.scalding.{RichDate, DateRange, Duration, AbsoluteDuration, Years,
+import com.twitter.storehaus.algebra.query.scalding.{RichDate, DateRange, Duration, AbsoluteDuration, Years,
   Months, Days, Hours, Minutes}
 import java.util.TimeZone
 import scala.annotation.tailrec

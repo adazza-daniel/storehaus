@@ -22,6 +22,7 @@ services:
   - redis-server
   - memcache
   - mongodb
+  - mysql
 cache:
   directories:
   - $HOME/.sbt/0.13/dependency

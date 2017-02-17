@@ -64,9 +64,9 @@ val ignoredABIProblems = {
 val sharedSettings = extraSettings ++ ciSettings ++ Seq(
   organization := "com.twitter",
   scalaVersion := "2.11.7",
-  crossScalaVersions := Seq("2.10.6", "2.11.7"),
-  javacOptions ++= Seq("-source", "1.6", "-target", "1.6"),
-  javacOptions in doc := Seq("-source", "1.6"),
+  crossScalaVersions := Seq("2.11.7"), //, "2.12.1"), Add this back once scalding has a scala 2.12 version
+  javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
+  javacOptions in doc := Seq("-source", "1.8"),
   libraryDependencies += "org.scalatest" %% "scalatest" % scalatestVersion % "test",
   resolvers ++= Seq(
     Opts.resolver.sonatypeSnapshots,
@@ -85,7 +85,7 @@ val sharedSettings = extraSettings ++ ciSettings ++ Seq(
   ),
 
   // add linter for common scala issues: https://github.com/HairyFotr/linter
-  addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.14"),
+  addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17"),
 
   // Publishing options:
 
@@ -161,12 +161,15 @@ lazy val noPublishSettings = Seq(
     publishArtifact := false
   )
 
-val algebirdVersion = "0.12.0"
-val bijectionVersion = "0.9.1"
-val utilVersion = "6.34.0"
+val algebirdVersion = "0.12.4"
+val bijectionVersion = "0.9.5"
+val utilVersion = "6.39.0"
+
+//Scalding is not yet on  scala 12 so this needs to be
+// rev'ed to get the PR to compile for 12.
 val scaldingVersion = "0.16.0-RC1"
-val finagleVersion = "6.35.0"
-val scalatestVersion = "2.2.4"
+val finagleVersion = "6.41.0"
+val scalatestVersion = "3.0.1"
 
 lazy val storehaus = Project(
   id = "storehaus",
@@ -227,9 +230,8 @@ lazy val storehausMemcache = module("memcache").settings(
     "com.twitter" %% "bijection-core" % bijectionVersion,
     "com.twitter" %% "bijection-netty" % bijectionVersion,
     "com.twitter" %% "finagle-memcached" % finagleVersion excludeAll(
-      // we don't use this and its not on maven central.
-      ExclusionRule("com.twitter.common.zookeeper"),
-      ExclusionRule("com.twitter.common")
+      // we don't use this
+      ExclusionRule("com.twitter.common.zookeeper")
       )
   )
 ).dependsOn(storehausAlgebra % "test->test;compile->compile")
@@ -289,7 +291,7 @@ lazy val storehausKafka = module("kafka").settings(
     "com.twitter" %% "bijection-avro" % bijectionVersion,
     "org.apache.kafka" % "kafka-clients" % "0.9.0.1",
     "org.apache.zookeeper" % "zookeeper" % "3.4.8" % "test",
-    "org.apache.kafka" %% "kafka" % "0.9.0.1" % "test"
+    "org.apache.kafka" %% "kafka" % "0.10.1.1" % "test"
   ),
   // we don't want various tests clobbering each others keys
   parallelExecution in Test := false
@@ -298,7 +300,7 @@ lazy val storehausKafka = module("kafka").settings(
 lazy val storehausMongoDB = module("mongodb").settings(
   libraryDependencies ++= Seq(
     "com.twitter" %% "bijection-core" % bijectionVersion,
-    "org.mongodb" %% "casbah" % "2.8.2"
+    "org.mongodb" %% "casbah" % "3.1.1"
   ),
   parallelExecution in Test := false
 ).dependsOn(storehausAlgebra % "test->test;compile->compile")
@@ -306,7 +308,7 @@ lazy val storehausMongoDB = module("mongodb").settings(
 lazy val storehausElastic = module("elasticsearch").settings(
   libraryDependencies ++= Seq (
     "org.elasticsearch" % "elasticsearch" % "0.90.9",
-    "org.json4s" %% "json4s-native" % "3.2.10",
+    "org.json4s" %% "json4s-native" % "3.5.0",
     "com.google.code.findbugs" % "jsr305" % "1.3.9",
     "com.twitter" %% "bijection-json4s" % bijectionVersion,
     "org.slf4j" % "slf4j-api" % "1.7.21" % "test",
@@ -322,7 +324,7 @@ lazy val storehausTesting = Project(
   settings = sharedSettings ++ Seq(
     name := "storehaus-testing",
     libraryDependencies ++= Seq(
-      "org.scalacheck" %% "scalacheck" % "1.12.2" withSources(),
+      "org.scalacheck" %% "scalacheck" % "1.12.6" withSources(),
       withCross("com.twitter" %% "util-core" % utilVersion)
     )
   )

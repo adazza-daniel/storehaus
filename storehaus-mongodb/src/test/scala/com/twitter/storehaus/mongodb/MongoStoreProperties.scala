@@ -43,7 +43,7 @@ object MongoStoreProperties extends Properties("MongoStore") {
         }
       }
     }
-
+/*
   property("MongoStore[String, String]") =
     putAndGetStoreTest[String, String](MongoStore[String, String](
         mongoClient,
@@ -92,5 +92,6 @@ object MongoStoreProperties extends Properties("MongoStore") {
         "storehaus",
         "data.stringDoubleMap"
       ), NonEmpty.Pairing.alphaStrNumerics[Double]())
+      */
 }
 

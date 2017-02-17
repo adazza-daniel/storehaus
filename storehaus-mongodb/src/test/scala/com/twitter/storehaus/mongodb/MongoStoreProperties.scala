@@ -30,6 +30,7 @@ import com.mongodb.casbah.Imports._
  */
 
 object MongoStoreProperties extends Properties("MongoStore") {
+  val mongoClient = MongoClient("127.0.0.1", 27017)
 
   def putAndGetStoreTest[K, V](store: Store[K, V], pairs: Gen[List[(K, Option[V])]]): Prop =
     forAll(pairs) {
@@ -45,49 +46,49 @@ object MongoStoreProperties extends Properties("MongoStore") {
 
   property("MongoStore[String, String]") =
     putAndGetStoreTest[String, String](MongoStore[String, String](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.stringMap"
       ), NonEmpty.Pairing.alphaStrs())
 
   property("MongoStore[Long, Long]") =
     putAndGetStoreTest[Long, Long](MongoStore[Long, Long](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.longMap"
       ), NonEmpty.Pairing.numerics[Long]())
 
   property("MongoStore[Int, Int]") =
     putAndGetStoreTest[Int, Int](MongoStore[Int, Int](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.intMap"
       ), NonEmpty.Pairing.numerics[Int]())
 
   property("MongoStore[Double, Double]") =
     putAndGetStoreTest[Double, Double](MongoStore[Double, Double](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.doubleMap"
       ), NonEmpty.Pairing.numerics[Double]())
 
   property("MongoStore[String, Int]") =
     putAndGetStoreTest[String, Int](MongoStore[String, Int](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.stringIntMap"
       ), NonEmpty.Pairing.alphaStrNumerics[Int]())
 
   property("MongoStore[String, Long]") =
     putAndGetStoreTest[String, Long](MongoStore[String, Long](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.stringLongMap"
       ), NonEmpty.Pairing.alphaStrNumerics[Long]())
 
   property("MongoStore[String, Double]") =
     putAndGetStoreTest[String, Double](MongoStore[String, Double](
-        MongoClient("127.0.0.1", 27017),
+        mongoClient,
         "storehaus",
         "data.stringDoubleMap"
       ), NonEmpty.Pairing.alphaStrNumerics[Double]())

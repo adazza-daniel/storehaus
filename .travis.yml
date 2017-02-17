@@ -13,7 +13,7 @@ matrix:
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 before_script:
-  - sleep 5
+  - sleep 15
   - mongo mydb_test --eval 'db.addUser("travis", "test");'
   - mysql -u root -e "create database storehaus_test;"
   - mysql -u root -e "create user 'storehaususer'@'localhost' identified by 'test1234';"

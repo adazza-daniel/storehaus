@@ -164,7 +164,7 @@ lazy val noPublishSettings = Seq(
 val algebirdVersion = "0.12.4"
 val bijectionVersion = "0.9.5"
 //No 2.10 version that is also for 2.12 for twitter util
-val utilVersion = "6.41.0"
+val utilVersion = "6.39.0"
 
 val scaldingVersion = "0.16.0-RC1"
 //No 2.10 version that is also for 2.12 for finagle
@@ -246,7 +246,8 @@ lazy val storehausRedis = module("redis").settings(
   libraryDependencies ++= Seq (
     "com.twitter" %% "bijection-core" % bijectionVersion,
     "com.twitter" %% "bijection-netty" % bijectionVersion,
-    "com.twitter" %% "finagle-redis" % finagleVersion
+    "com.twitter" %% "finagle-redis" % finagleVersion,
+    "com.twitter.common" % "metrics"  % "0.0.38" % "test"
   ),
   // we don't want various tests clobbering each others keys
   parallelExecution in Test := false

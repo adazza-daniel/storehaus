@@ -76,7 +76,7 @@ val sharedSettings = extraSettings ++ ciSettings ++ Seq(
     // during mima checks
     "Twitter Maven" at "http://maven.twttr.com"
   ),
-  parallelExecution in Test := true,
+  parallelExecution in Test := false,
   scalacOptions ++= Seq(
     "-unchecked",
     "-deprecation",
